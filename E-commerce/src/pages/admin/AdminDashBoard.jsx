@@ -1,4 +1,7 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import ProductDetail from '../../components/admin/ProductDetail';
+import OrderDetail from '../../components/admin/OrderDetail';
+import UserDetail from '../../components/admin/UserDetail';
 
 const AdminDashboard = () => {
     return (
@@ -121,15 +124,15 @@ const AdminDashboard = () => {
                         </TabList>
 
                         <TabPanel>
-                            All Product
+                            <ProductDetail />
                         </TabPanel>
 
                         <TabPanel>
-                            All Order
+                            <OrderDetail />
                         </TabPanel>
 
                         <TabPanel>
-                            All User
+                            <UserDetail />
                         </TabPanel>
                     </Tabs>
                 </div>
