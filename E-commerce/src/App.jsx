@@ -10,7 +10,7 @@ import HomePage from "./pages/home/Home";
 import NoPage from "./pages/nopage/Nopage";
 import Productinfo from './productinfo/Productinfo';
 import ScrollTop from './components/scrolltop/Scrolltop';
-
+import CartPage from './pages/cart/Cart';
 function App() {
   
 
@@ -21,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/productinfo" element={<Productinfo />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/*" element={<NoPage />} />
       </Routes>
     </Router>
