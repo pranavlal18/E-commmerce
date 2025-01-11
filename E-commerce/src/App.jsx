@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import HomePage from "./pages/home/Home";
 import NoPage from "./pages/nopage/Nopage";
+import Productinfo from './productinfo/Productinfo';
+import ScrollTop from './components/scrolltop/Scrolltop';
 
 function App() {
   
@@ -15,8 +17,10 @@ function App() {
   return (
     <div>
     <Router>
+      <ScrollTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/productinfo" element={<Productinfo />} />
         <Route path="/*" element={<NoPage />} />
       </Routes>
     </Router>
