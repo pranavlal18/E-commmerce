@@ -2,13 +2,13 @@ import { useNavigate } from "react-router";
 import Layout from "../../components/layout/Layout";
 import { useContext } from "react";
 import myContext from "../../context/myContext";
-
+import Loader from "../../components/loader/Loader";
 
 const AllProduct = () => {
     const navigate = useNavigate();
 
     const context = useContext(myContext);
-    const {getAllProduct} = context;
+    const {loading,getAllProduct} = context;
     return (
         <Layout>
     <div className="py-8">
@@ -20,6 +20,9 @@ const AllProduct = () => {
             {/* main  */}
             <section className="text-gray-600 body-font">
                 <div className="container px-5 lg:px-0 py-5 mx-auto">
+                    <div className="flex justify-center">
+                        {loading && <Loader />}
+                    </div>
                     <div className="flex flex-wrap -m-4">
                     {getAllProduct.map((item, index) => {
                             const { id, title, price,productImageUrl } = item
@@ -27,7 +30,7 @@ const AllProduct = () => {
                                 <div key={index} className="p-4 w-full md:w-1/4">
                                     <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer">
                                         <img
-                                        onClick={()=> navigate('/productinfo')}
+                                        onClick={()=> navigate(`/productinfo/${id}`)}
                                             className="lg:h-80  h-96 w-full"
                                             src={productImageUrl}
                                             alt="blog"

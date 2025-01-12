@@ -22,6 +22,7 @@ import MyState from "./context/myState";
 import { ProtectedRouteForUser } from "./protectedRoute/ProtectedRouteForUser";
 import { ProtectedRouteForAdmin } from "./protectedRoute/ProtectedRouteForAdmin";
 import {Toaster} from 'react-hot-toast'
+import CategoryPage from './pages/category/CategoryPage';
 function App() {
   
 
@@ -32,11 +33,12 @@ function App() {
       <ScrollTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/productinfo" element={<Productinfo />} />
+        <Route path="/productinfo/:id" element={<Productinfo />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/allproduct" element={<AllProduct />}/>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />}/>
+        <Route path="/category/:categoryname" element={<CategoryPage />} />
         <Route path="/userdashboard" element={
           
           <ProtectedRouteForUser>
