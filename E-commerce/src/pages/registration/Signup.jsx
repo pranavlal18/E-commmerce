@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../../context/myContext";
@@ -10,9 +9,8 @@ import Loader from "../../components/loader/Loader";
 
 const Signup = () => {
     const context = useContext(myContext);
-    const {loading, setLoading } = context;
+    const { loading, setLoading } = context;
 
-    // navigate 
     const navigate = useNavigate();
 
     // User Signup State 
@@ -20,141 +18,141 @@ const Signup = () => {
         name: "",
         email: "",
         password: "",
-        role: "user"
+        role: "user",
     });
 
-    /**========================================================================
-     *                          User Signup Function 
-    *========================================================================**/
-
     const userSignupFunction = async () => {
-        // validation 
-        if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {
-            toast.error("All Fields are required")
+        // Validation
+        if (!userSignup.name || !userSignup.email || !userSignup.password) {
+            toast.error("All fields are required.");
+            return; // Exit early to prevent unnecessary processing
         }
 
         setLoading(true);
         try {
-            const users = await createUserWithEmailAndPassword(auth, userSignup.email, userSignup.password);
+            const users = await createUserWithEmailAndPassword(
+                auth,
+                userSignup.email,
+                userSignup.password
+            );
 
-            // create user object
+            // Create user object
             const user = {
                 name: userSignup.name,
                 email: users.user.email,
                 uid: users.user.uid,
                 role: userSignup.role,
                 time: Timestamp.now(),
-                date: new Date().toLocaleString(
-                    "en-US",
-                    {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                    }
-                )
-            }
+                date: new Date().toLocaleString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                    year: "numeric",
+                }),
+            };
 
-            // create user Refrence
-            const userRefrence = collection(fireDB, "user")
+            // Create user reference
+            const userReference = collection(fireDB, "user");
 
-            // Add User Detail
-            addDoc(userRefrence, user);
+            // Add User Details
+            await addDoc(userReference, user);
 
+            // Reset form state
             setUserSignup({
                 name: "",
                 email: "",
-                password: ""
-            })
+                password: "",
+                role: "user",
+            });
 
-            toast.success("Signup Successfully");
-
-            setLoading(false);
-            navigate('/login')
+            toast.success("Signup Successful");
+            navigate("/login");
         } catch (error) {
-            console.log(error);
-            setLoading(false);
+            console.error(error);
+            toast.error("Signup failed. Please try again.");
+        } finally {
+            setLoading(false); // Ensure loader is turned off
         }
+    };
 
-    }
     return (
-        <div className='flex justify-center items-center h-screen'>
-            {loading && <Loader/>}
-            {/* Login Form  */}
+        <div className="flex justify-center items-center h-screen">
+            {loading && <Loader />}
+            {/* Signup Form */}
             <div className="login_Form bg-blue-50 px-8 py-6 border border-blue-100 rounded-xl shadow-md">
-
-                {/* Top Heading  */}
+                {/* Top Heading */}
                 <div className="mb-5">
-                    <h2 className='text-center text-2xl font-bold text-blue-500 '>
+                    <h2 className="text-center text-2xl font-bold text-blue-500">
                         Signup
                     </h2>
                 </div>
 
-                {/* Input One  */}
+                {/* Input Fields */}
                 <div className="mb-3">
                     <input
                         type="text"
-                        placeholder='Full Name'
+                        placeholder="Full Name"
                         value={userSignup.name}
-                        onChange={(e) => {
+                        onChange={(e) =>
                             setUserSignup({
                                 ...userSignup,
-                                name: e.target.value
+                                name: e.target.value,
                             })
-                        }}
-                        className='bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200'
+                        }
+                        className="bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200"
                     />
                 </div>
-
-                {/* Input Two  */}
                 <div className="mb-3">
                     <input
                         type="email"
-                        placeholder='Email Address'
+                        placeholder="Email Address"
                         value={userSignup.email}
-                        onChange={(e) => {
+                        onChange={(e) =>
                             setUserSignup({
                                 ...userSignup,
-                                email: e.target.value
+                                email: e.target.value,
                             })
-                        }}
-                        className='bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200'
+                        }
+                        className="bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200"
                     />
                 </div>
-
-                {/* Input Three  */}
                 <div className="mb-5">
                     <input
                         type="password"
-                        placeholder='Password'
+                        placeholder="Password"
                         value={userSignup.password}
-                        onChange={(e) => {
+                        onChange={(e) =>
                             setUserSignup({
                                 ...userSignup,
-                                password: e.target.value
+                                password: e.target.value,
                             })
-                        }}
-                        className='bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200'
+                        }
+                        className="bg-blue-50 border border-blue-200 px-2 py-2 w-96 rounded-md outline-none placeholder-blue-200"
                     />
                 </div>
 
-                {/* Signup Button  */}
+                {/* Signup Button */}
                 <div className="mb-5">
                     <button
-                        type='button'
+                        type="button"
                         onClick={userSignupFunction}
-                        className='bg-blue-500 hover:bg-blue-600 w-full text-white text-center py-2 font-bold rounded-md '
+                        className="bg-blue-500 hover:bg-blue-600 w-full text-white text-center py-2 font-bold rounded-md"
                     >
                         Signup
                     </button>
                 </div>
 
+                {/* Link to Login */}
                 <div>
-                    <h2 className='text-black'>Have an account <Link className=' text-blue-500 font-bold' to={'/login'}>Login</Link></h2>
+                    <h2 className="text-black">
+                        Have an account?{" "}
+                        <Link className="text-blue-500 font-bold" to="/login">
+                            Login
+                        </Link>
+                    </h2>
                 </div>
-
             </div>
         </div>
     );
-}
+};
 
 export default Signup;

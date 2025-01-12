@@ -19,7 +19,9 @@ import AdminDashboard from './pages/admin/AdminDashBoard';
 import AddProductPage from './pages/admin/AddProductPage';
 import UpdateProductPage from './pages/admin/UpdateProductPage';
 import MyState from "./context/myState";
-
+import { ProtectedRouteForUser } from "./protectedRoute/ProtectedRouteForUser";
+import { ProtectedRouteForAdmin } from "./protectedRoute/ProtectedRouteForAdmin";
+import {Toaster} from 'react-hot-toast'
 function App() {
   
 
@@ -35,10 +37,28 @@ function App() {
         <Route path="/allproduct" element={<AllProduct />}/>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />}/>
-        <Route path="/userdashboard" element={<UserDashboard />} />
-        <Route path="/admindashboard" element={<AdminDashboard />} />
-        <Route path="/addproduct" element={<AddProductPage />} />
-        <Route path="/updateproduct" element={<UpdateProductPage />} />
+        <Route path="/userdashboard" element={
+          
+          <ProtectedRouteForUser>
+              <UserDashboard />
+            </ProtectedRouteForUser>
+          } />
+        <Route path="/admindashboard" element={ 
+               <ProtectedRouteForAdmin>
+               <AdminDashboard />
+             </ProtectedRouteForAdmin>
+         } />
+        <Route path="/addproduct" element={ 
+               <ProtectedRouteForAdmin>
+               <AddProductPage />
+             </ProtectedRouteForAdmin>
+        } />
+        <Route path="/updateproduct/:id" element={
+          <ProtectedRouteForAdmin>
+          <UpdateProductPage />
+        </ProtectedRouteForAdmin>
+          
+          } />
 
         
 
@@ -47,8 +67,10 @@ function App() {
 
 
         <Route path="/*" element={<NoPage />} />
+        
 
       </Routes>
+      <Toaster />
     </Router>
     </MyState>
   

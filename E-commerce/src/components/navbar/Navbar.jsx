@@ -1,87 +1,106 @@
 import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../../searchBar/SearchBar";
 
-
 const Navbar = () => {
-    // get user from localStorage 
+    // Retrieve the user data from localStorage
     const user = JSON.parse(localStorage.getItem('users'));
 
-    // navigate 
+    // Navigation hook
     const navigate = useNavigate();
 
-    // logout function 
+    // Logout function
     const logout = () => {
-        localStorage.clear('users');
-        navigate("/login")
-    }
+        localStorage.removeItem('users'); // Only remove 'users' key
+        navigate("/login");
+    };
 
-    // navList Data
+    // Navigation list items
     const navList = (
-        <ul className="flex space-x-3 text-white font-medium text-md px-5 ">
+        <ul className="flex space-x-3 text-white font-medium text-md px-5">
             {/* Home */}
             <li>
                 <Link to={'/'}>Home</Link>
             </li>
 
-            {/* All Product */}
+            {/* All Products */}
             <li>
-                <Link to={'/allproduct'}>All Product</Link>
+                <Link to={'/allproduct'}>All Products</Link>
             </li>
 
             {/* Signup */}
-            {!user ? <li>
-                <Link to={'/signup'}>Signup</Link>
-            </li> : ""}
+            {!user && (
+                <li>
+                    <Link to={'/signup'}>Signup</Link>
+                </li>
+            )}
 
-            {/* Signup */}
-            {!user ? <li>
-                <Link to={'/login'}>Login</Link>
-            </li> : ""}
+            {/* Login */}
+            {!user && (
+                <li>
+                    <Link to={'/login'}>Login</Link>
+                </li>
+            )}
 
-            {/* User */}
-            {user?.role === "user" && <li>
-                <Link to={'/user-dashboard'}>User</Link>
-            </li>}
+            {/* User Dashboard */}
+            {user?.role === "user" && (
+                <li>
+                    <Link to={'/userdashboard'}>User Dashboard</Link>
+                </li>
+            )}
 
-            {/* Admin */}
-            {user?.role === "admin" && <li>
-                <Link to={'/admin-dashboard'}>Admin</Link>
-            </li>}
+            {/* Admin Dashboard */}
+            {user?.role === "admin" && (
+                <li>
+                    <Link to={'/admindashboard'}>Admin Dashboard</Link>
+                </li>
+            )}
 
-            {/* logout */}
-            {user && <li className=" cursor-pointer" onClick={logout}>
-                logout
-            </li>}
+            {/* Logout */}
+            {user && (
+                <li className="cursor-pointer" onClick={logout}>
+                    Logout
+                </li>
+            )}
 
             {/* Cart */}
             <li>
                 <Link to={'/cart'}>
-                    Cart(0)
+                    Cart (0) {/* Replace 0 with dynamic cart count in the future */}
                 </Link>
             </li>
         </ul>
-    )
+    );
+
     return (
-        <nav className="bg-blue-600 sticky top-0">
-            {/* main  */}
-            <div className="lg:flex lg:justify-between items-center py-3 lg:px-3 ">
-                {/* left  */}
+        <nav className="bg-blue-600 sticky top-0 z-50">
+            {/* Main Container */}
+            <div className="lg:flex lg:justify-between items-center py-3 lg:px-3">
+                {/* Left Section */}
                 <div className="left py-3 lg:py-0">
                     <Link to={'/'}>
-                        <h2 className=" font-bold text-white text-2xl text-center">E-Bharat</h2>
+                        <h2 className="font-bold text-white text-2xl text-center">
+                            E-Bharat
+                        </h2>
                     </Link>
                 </div>
 
-                {/* right  */}
+                {/* Navigation List */}
                 <div className="right flex justify-center mb-4 lg:mb-0">
                     {navList}
                 </div>
 
-                {/* Search Bar  */}
-                <SearchBar />
+                {/* User Greeting and Search Bar */}
+                <div className="flex items-center space-x-4">
+                    {user && (
+                        <span className="text-white font-medium">
+                            Welcome, {user.name || "Guest"}!
+                        </span>
+                    )}
+                    <SearchBar />
+                </div>
             </div>
         </nav>
     );
-}
+};
 
 export default Navbar;

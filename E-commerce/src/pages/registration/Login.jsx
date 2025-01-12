@@ -49,9 +49,9 @@ const Login = () => {
                     toast.success("Login Successfully");
                     setLoading(false);
                     if(user.role === "user") {
-                        navigate('/user-dashboard');
+                        navigate('/userdashboard');
                     }else{
-                        navigate('/admin-dashboard');
+                        navigate('/admindashboard');
                     }
                 });
                 return () => data;
