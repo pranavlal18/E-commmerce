@@ -18,11 +18,14 @@ import UserDashboard from './pages/user/UserDashboard';
 import AdminDashboard from './pages/admin/AdminDashBoard';
 import AddProductPage from './pages/admin/AddProductPage';
 import UpdateProductPage from './pages/admin/UpdateProductPage';
+import MyState from "./context/myState";
+
 function App() {
   
 
   return (
-    <div>
+    
+      <MyState>
     <Router>
       <ScrollTop />
       <Routes>
@@ -37,6 +40,7 @@ function App() {
         <Route path="/addproduct" element={<AddProductPage />} />
         <Route path="/updateproduct" element={<UpdateProductPage />} />
 
+        
 
 
         
@@ -46,7 +50,8 @@ function App() {
 
       </Routes>
     </Router>
-  </div>
+    </MyState>
+  
   )
 }
 
